@@ -249,14 +249,14 @@ public class UsuarioServlet extends HttpServlet {
 
 	}	
 	
-
+	//ver esse com o professor
 	private void inserirEvento(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, SQLException {
 
-		//ve o anmimal
+		
 		int animalId = Integer.parseInt(request.getParameter("animal-id"));
 
-		// Pega os dados do evento
+		
 		String tipo = request.getParameter("tipo");
 		String descricao = request.getParameter("descricao");
 		LocalDate dataEvento = LocalDate.parse(request.getParameter("dataEvento"));

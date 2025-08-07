@@ -13,7 +13,12 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		Connection conexao = null;
 		PreparedStatement insert = null;
 		
+
+		
+		
 		try { 
+			
+		    
 			
 			conexao = conectarBanco();
 			insert = conexao.prepareStatement("INSERT INTO usuario (nome_usuario, sobrenome_usuario, email_usuario, senha_usuario) VALUES (?,?,?,?)");
@@ -22,7 +27,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 			insert.setString(2, usuario.getSobrenome());
 			insert.setString(3, usuario.getEmail());
 			insert.setString(4, usuario.getSenha());
-
+			System.out.println("Usuário salvo!");
 			insert.execute();
 		} catch (SQLException erro) {
 			erro.printStackTrace();
@@ -54,7 +59,7 @@ public void deletarUsuario(Usuario usuario) {
 			conexao = conectarBanco();
 			delete = conexao.prepareStatement("DELETE FROM usuario WHERE id_usuario = ?");
 
-			delete.setFloat(1, usuario.getId());
+			delete.setLong(1, usuario.getId());
 
 			delete.execute();
 
@@ -126,7 +131,7 @@ public void atualizarEmailUsuario(Usuario usuario, String novoEmail) {
 		update = conexao.prepareStatement("UPDATE usuario SET email_usuario = ? WHERE id_usuario = ?");
 		
 		update.setString(1, novoEmail);
-		update.setFloat(2, usuario.getId());
+		update.setLong(2, usuario.getId());
 
 		update.execute();
 
@@ -162,7 +167,7 @@ public void atualizarSobrenomeUsuario(Usuario usuario, String novoSobrenome) {
 		update = conexao.prepareStatement("UPDATE usuario SET sobrenome_usuario = ? WHERE id_usuario = ?");
 		
 		update.setString(1, novoSobrenome);
-		update.setFloat(2, usuario.getId());
+		update.setLong(2, usuario.getId());
 
 		update.execute();
 
@@ -198,7 +203,7 @@ public void atualizarSenhaUsuario(Usuario usuario, String novaSenha) {
 		update = conexao.prepareStatement("UPDATE usuario SET senha_usuario = ? WHERE id_usuario = ?");
 		
 		update.setString(1, novaSenha);
-		update.setFloat(2, usuario.getId());
+		update.setLong(2, usuario.getId());
 
 		update.execute();
 
@@ -224,7 +229,12 @@ public void atualizarSenhaUsuario(Usuario usuario, String novaSenha) {
 }
 
 private Connection conectarBanco() throws SQLException {
-	return DriverManager.getConnection("jdbc:mysql://localhost/cadastro?user=admin&password=password");
+	try {
+	    Class.forName("com.mysql.cj.jdbc.Driver");
+	} catch (ClassNotFoundException e) {
+	    e.printStackTrace();
+	}
+	return DriverManager.getConnection("jdbc:mysql://localhost/projeto?user=root&password=root&serverTimezone=America/Sao_Paulo");
 }
 
 	}

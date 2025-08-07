@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Cadastrar Usuário</h1>
-    <form action="/novo-usuario" method="post">
+  		 <form action="${pageContext.request.contextPath}/inserir-usuario" method="post">
         <label for="nome">Nome</label><br/>
         <input type="text" id="nome" name="nome" required /><br/><br/>
 
@@ -21,7 +21,8 @@
         <label for="senha">Senha</label><br/>
         <input type="password" id="senha" name="senha" required /><br/><br/>
 
-        <button type="submit" onclick="alert('Enviado com sucesso')">Cadastrar</button>
+        <button type="submit">Cadastrar</button>
+
     </form>
 </body>
 </html>

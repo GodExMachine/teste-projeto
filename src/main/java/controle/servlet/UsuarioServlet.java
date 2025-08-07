@@ -1,13 +1,32 @@
-import java.util.List;
+package controle.servlet;
 
+import modelo.dao.usuario.UsuarioDao;
+import modelo.dao.usuario.UsuarioDaoImpl;  // se sua implementação se chama assim
+import modelo.entidade.usuario.Usuario;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpSession;
+
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.time.LocalDate;
+
+
+//@WebServlet(urlPatterns = {"/cadastro-usuario","/inserir-usuario","/login-usuario","/login","/homepage","/perfil-usuario"})
 @WebServlet("/")
 public class UsuarioServlet extends HttpServlet {
 	
-	private static final long serialVersionUID = 1L;
-	private UsuarioDAO dao;
+//	private static final long serialVersionUID = 1L;
+	private UsuarioDao dao;
 
 	public void init() {
-		dao = new UsuarioDAOImpl();
+		dao = new UsuarioDaoImpl();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -19,12 +38,13 @@ public class UsuarioServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		String action = request.getServletPath();
+	
 
 		try {
 			
 			switch (action) {
 			
-			case "/cadastro-usuario":
+			case "/novo-usuario":
 				mostrarTelaCadastroUsuario(request, response);
 				break;
 				
@@ -36,10 +56,10 @@ public class UsuarioServlet extends HttpServlet {
 				mostrarTelaLoginUsuario(request, response);
 				break;
 				
-			case"/login":	//tá certo isso arnaldo?
+			/*case"/login":	//tá certo isso arnaldo?
 				loginUsuario(request, response);
 				break;
-				
+				*/
 			case "/homepage":
 				mostrarHomepage(request, response);
 				break;
@@ -48,6 +68,7 @@ public class UsuarioServlet extends HttpServlet {
 				mostrarTelaPerfilUsuario(request, response);
 				break;
 
+				/*
 			case "/cadastro-emblema":
 				mostrarTelaCadastroEmblema(request, response);
 				break;
@@ -75,6 +96,7 @@ public class UsuarioServlet extends HttpServlet {
 			case "/listar-animais":
 				listarAnimaisCadastrados(request, response);
 				break;
+				*/
 				
 			default:
 				mostrarTelaErro404(request, response);
@@ -104,13 +126,13 @@ public class UsuarioServlet extends HttpServlet {
 
 		String nome = request.getParameter("nome");
 		String sobrenome = request.getParameter("sobrenome");
+		String email = request.getParameter("email");
 		String senha = request.getParameter("senha");
 		
-		
+		/*
 		String foto = request.getParameter("foto");
 		
-		// isso é o contato
-		String email = request.getParameter("email");
+		//isso é o contato
 		String telefone = request.getParameter("telefone");
 		String instagram = request.getParameter("instagram");
 		
@@ -123,12 +145,14 @@ public class UsuarioServlet extends HttpServlet {
 		String complemento = request.getParameter("complemento");		
 		String cep = request.getParameter("cep");
 
-		dao.inserirUsuario(new Usuario(nome, sobrenome, senha));
-		dao.inserirFoto(new Foto(foto));
-		dao.inserirEndereco(new Endereco(logradouro, numero, bairro, cidade, estado, complemento, cep));
-		dao.inserirContato(new Contato(email, telefone, instagram));
+		Long id = ;
 		
-
+		dao.inserirFoto(new Foto(id, foto));
+		dao.inserirEndereco(new Endereco(id, logradouro, numero, bairro, cidade, estado, complemento, cep));
+		dao.inserirContato(new Contato(id, email, telefone, instagram));
+		
+		 */
+		dao.inserirUsuario(new Usuario(nome, sobrenome, email, senha));
 		response.sendRedirect("homepage");
 		
 
@@ -143,6 +167,7 @@ public class UsuarioServlet extends HttpServlet {
 	
 	}
 
+	/*
 	private void loginUsuario(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, SQLException {
 
@@ -161,6 +186,8 @@ public class UsuarioServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 		}
 	}
+	
+	*/
 	
 	private void mostrarHomepage(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -189,8 +216,9 @@ public class UsuarioServlet extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("erro404.jsp");
 		dispatcher.forward(request, response);
 	}
-				
-	private void listarAnimaisCadastrados(HttpServletRequest request, HttpServletResponse response)
+	
+	/*			
+	priva	te void listarAnimaisCadastrados(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
 		List<Animal> animais = dao.recuperarAnimais();
@@ -289,7 +317,7 @@ public class UsuarioServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
-	
+	*/
 
 
 }

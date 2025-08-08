@@ -95,7 +95,8 @@
             <label for="cep_endereco">CEP</label><br/>
             <input type="text" id="cep_endereco" name="cep" required />
 
-            <button type="submit">Cadastrar</button>
+            <button type="submit" onclick="alert('Usuário cadastrado com sucesso!')">Cadastrar</button>
+
         </form>
     </div>
 </body>

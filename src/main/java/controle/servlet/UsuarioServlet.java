@@ -160,7 +160,7 @@ public class UsuarioServlet extends HttpServlet {
 	    usuarioDao.inserirUsuario(usuario);
 
 	    // Redireciona para homepage ou página de sucesso
-	    response.sendRedirect("homepage");
+	    response.sendRedirect("index.jsp");
 	
 
 

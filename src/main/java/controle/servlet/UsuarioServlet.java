@@ -1,8 +1,13 @@
 package controle.servlet;
 
 import modelo.dao.usuario.UsuarioDao;
-import modelo.dao.usuario.UsuarioDaoImpl;  // se sua implementação se chama assim
+import modelo.dao.usuario.UsuarioDaoImpl;  
 import modelo.entidade.usuario.Usuario;
+
+import modelo.dao.endereco.EnderecoDao;
+import modelo.dao.endereco.EnderecoDaoImpl;
+import modelo.entidade.endereco.Endereco;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,10 +28,13 @@ import java.time.LocalDate;
 public class UsuarioServlet extends HttpServlet {
 	
 //	private static final long serialVersionUID = 1L;
-	private UsuarioDao dao;
+	private UsuarioDao usuarioDao;
+	private EnderecoDao enderecoDao;
+
 
 	public void init() {
-		dao = new UsuarioDaoImpl();
+		usuarioDao = new UsuarioDaoImpl();
+		enderecoDao = new EnderecoDaoImpl();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -120,14 +128,46 @@ public class UsuarioServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
-	//ver esse com o professor
 	private void inserirUsuario(HttpServletRequest request, HttpServletResponse response)
-			throws SQLException, IOException, ServletException {
+	        throws SQLException, IOException, ServletException {
 
-		String nome = request.getParameter("nome");
-		String sobrenome = request.getParameter("sobrenome");
-		String email = request.getParameter("email");
-		String senha = request.getParameter("senha");
+	    // Dados do usuário
+	    String nome = request.getParameter("nome");
+	    String sobrenome = request.getParameter("sobrenome");
+	    String email = request.getParameter("email");
+	    String senha = request.getParameter("senha");
+
+	    // Dados do endereço
+	    String logradouro = request.getParameter("logradouro");
+	    String numero = request.getParameter("numero");
+	    String bairro = request.getParameter("bairro");
+	    String cidade = request.getParameter("cidade");
+	    String estado = request.getParameter("estado");
+	    String complemento = request.getParameter("complemento");
+	    String cep = request.getParameter("cep");
+
+	    // Cria o endereço
+	    Endereco endereco = new Endereco(null, logradouro, numero, complemento, bairro, cidade, estado, cep);
+
+	    // Insere o endereço e pega o ID gerado
+	    Long idEndereco = enderecoDao.inserirEndereco(endereco);
+
+
+	    // Cria o usuário com o id do endereço
+	    Usuario usuario = new Usuario(nome, sobrenome, email, senha, idEndereco);
+
+	    // Insere o usuário
+	    usuarioDao.inserirUsuario(usuario);
+
+	    // Redireciona para homepage ou página de sucesso
+	    response.sendRedirect("homepage");
+	
+
+
+	    
+	    
+	    
+	    
 		
 		/*
 		String foto = request.getParameter("foto");
@@ -136,24 +176,14 @@ public class UsuarioServlet extends HttpServlet {
 		String telefone = request.getParameter("telefone");
 		String instagram = request.getParameter("instagram");
 		
-		//isso é o endereço
-		String logradouro= request.getParameter("logradouro");
-		String numero = request.getParameter("numero");
-		String bairro = request.getParameter("bairro");
-		String cidade = request.getParameter("cidade");
-		String estado = request.getParameter("estado");
-		String complemento = request.getParameter("complemento");		
-		String cep = request.getParameter("cep");
-
-		Long id = ;
+		
 		
 		dao.inserirFoto(new Foto(id, foto));
-		dao.inserirEndereco(new Endereco(id, logradouro, numero, bairro, cidade, estado, complemento, cep));
+		
 		dao.inserirContato(new Contato(id, email, telefone, instagram));
 		
 		 */
-		dao.inserirUsuario(new Usuario(nome, sobrenome, email, senha));
-		response.sendRedirect("homepage");
+		
 		
 
 	}		

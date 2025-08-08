@@ -21,12 +21,13 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		    
 			
 			conexao = conectarBanco();
-			insert = conexao.prepareStatement("INSERT INTO usuario (nome_usuario, sobrenome_usuario, email_usuario, senha_usuario) VALUES (?,?,?,?)");
+			insert = conexao.prepareStatement("INSERT INTO usuario (nome_usuario, sobrenome_usuario, email_usuario, senha_usuario, id_endereco) VALUES (?,?,?,?,?)\r\n");
 		
 			insert.setString(1, usuario.getNome());
 			insert.setString(2, usuario.getSobrenome());
 			insert.setString(3, usuario.getEmail());
 			insert.setString(4, usuario.getSenha());
+			insert.setLong(5, usuario.getIdEndereco());
 			System.out.println("Usuário salvo!");
 			insert.execute();
 		} catch (SQLException erro) {

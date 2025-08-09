@@ -25,8 +25,12 @@
 
             <label for="numero">Número</label>
             <input type="text" id="numero" name="numero" placeholder="Número" required />
-
-            <label for="bairro">Bairro</label>
+            
+	        <label for="complemento_endereco">Complemento</label>
+	        <input type="text" id="complemento_endereco" name="complemento" />
+	            
+	
+	         <label for="bairro">Bairro</label>
             <input type="text" id="bairro" name="bairro" placeholder="Bairro" required />
 
             <label for="cidade">Cidade</label>

@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -58,6 +59,13 @@
         <form action="/testeprojeto/login-usuario" method="get">
             <button type="submit">Fazer Login</button>
         </form>
+
+        <c:if test="${not empty sessionScope.usuarioLogado}">
+            <form action="/testeprojeto/novo-evento" method="get">
+                <button type="submit">Novo Evento</button>
+            </form>
+        </c:if>
+
     </div>
 </body>
 </html>

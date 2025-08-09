@@ -24,7 +24,13 @@
             <input type="password" id="senha" name="senha" required />
 
             <button type="submit">Entrar</button>
+            
+            <a href="index.jsp" class="btn">Voltar </a>
+            
         </form>
-    </div>
+		
+
+
+	</div>
 </body>
 </html>

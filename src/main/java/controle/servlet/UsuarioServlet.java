@@ -8,6 +8,9 @@ import modelo.dao.endereco.EnderecoDao;
 import modelo.dao.endereco.EnderecoDaoImpl;
 import modelo.entidade.endereco.Endereco;
 
+import modelo.dao.evento.EventoDao;
+import modelo.dao.evento.EventoDaoImpl;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,10 +30,14 @@ public class UsuarioServlet extends HttpServlet {
 //	private static final long serialVersionUID = 1L;
 	private UsuarioDao usuarioDao;
 	private EnderecoDao enderecoDao;
-
+	private EventoDao eventoDao;
+	
+	
 	public void init() {
-		usuarioDao = new UsuarioDaoImpl();
-		enderecoDao = new EnderecoDaoImpl();
+	    usuarioDao = new UsuarioDaoImpl();
+	    enderecoDao = new EnderecoDaoImpl();
+	    eventoDao = new EventoDaoImpl();
+	
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -63,30 +70,13 @@ public class UsuarioServlet extends HttpServlet {
 				loginUsuario(request, response);
 				break;
 
-			case "/homepage":
-				mostrarHomepage(request, response);
+			case "/listar-eventos-usuario":
+				listarEventosPorUsuario(request, response);
 				break;
 
 			case "/perfil-usuario":
 				mostrarPerfilUsuario(request, response);
 				break;
-
-			/*
-			 * case "/cadastro-emblema": mostrarTelaCadastroEmblema(request, response);
-			 * break;
-			 * 
-			 * case "/cadastro-animal": mostrarCadastroAnimal(request, response); break;
-			 * 
-			 * case "/inserir-animal": inserirAnimal(request, response); break;
-			 * 
-			 * case "/perfil-animal": mostrarTelaPerfilAnimal(request, response); break;
-			 * 
-			 * case "/cadastro-evento": mostrarCadastroEvento(request, response); break;
-			 * 
-			 * case "/inserir-evento": inserirEvento(request, response); break;
-			 * 
-			 * case "/listar-animais": listarAnimaisCadastrados(request, response); break;
-			 */
 
 			default:
 				mostrarTelaErro404(request, response);
@@ -213,13 +203,6 @@ public class UsuarioServlet extends HttpServlet {
 	}
 
 
-	private void mostrarTelaCadastroEmblema(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		RequestDispatcher dispatcher = request.getRequestDispatcher("cadastro-emblema.jsp");
-		dispatcher.forward(request, response);
-	}
-
 	private void mostrarTelaErro404(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -227,101 +210,21 @@ public class UsuarioServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
-	/*
-	 * priva te void listarAnimaisCadastrados(HttpServletRequest request,
-	 * HttpServletResponse response) throws ServletException, IOException {
-	 * 
-	 * List<Animal> animais = dao.recuperarAnimais();
-	 * request.setAttribute("animais", animais); RequestDispatcher dispatcher =
-	 * request.getRequestDispatcher("listar-animais.jsp");
-	 * dispatcher.forward(request, response); }
-	 * 
-	 * private void mostrarCadastroAnimal(HttpServletRequest request,
-	 * HttpServletResponse response) throws ServletException, IOException {
-	 * 
-	 * RequestDispatcher dispatcher =
-	 * request.getRequestDispatcher("cadastro-animal.jsp");
-	 * dispatcher.forward(request, response); }
-	 * 
-	 * private void mostrarCadastroEvento(HttpServletRequest request,
-	 * HttpServletResponse response) throws ServletException, IOException {
-	 * 
-	 * RequestDispatcher dispatcher =
-	 * request.getRequestDispatcher("cadastro-evento.jsp");
-	 * dispatcher.forward(request, response); }
-	 * 
-	 * //ver esse com o professor private void inserirAnimal(HttpServletRequest
-	 * request, HttpServletResponse response) throws SQLException, IOException,
-	 * ServletException {
-	 * 
-	 * 
-	 * //especia raça cor porte String especie = request.getParameter("especie");
-	 * String raca = request.getParameter("raca"); String cor =
-	 * request.getParameter("cor"); String porte = request.getParameter("porte");
-	 * LocalDate dataCadastro =
-	 * LocalDate.parse(request.getParameter("dataCadastro"));
-	 * 
-	 * 
-	 * String foto = request.getParameter("foto");
-	 * 
-	 * //isso é o endereço String logradouro = request.getParameter("logradouro");
-	 * String numero = request.getParameter("numero"); String bairro =
-	 * request.getParameter("bairro"); String cidade =
-	 * request.getParameter("cidade"); String estado =
-	 * request.getParameter("estado"); String complemento =
-	 * request.getParameter("complemento"); String cep =
-	 * request.getParameter("cep");
-	 * 
-	 * 
-	 * dao.inserirAnimal(new Animal(especie, raca, cor, porte, dataCadastro));
-	 * dao.inserirFoto(new Foto(foto)); dao.inserirEndereco(new Endereco(logradouro,
-	 * numero, bairro, cidade, estado, complemento, cep));
-	 * 
-	 * 
-	 * 
-	 * response.sendRedirect("homepage");
-	 * 
-	 * 
-	 * }
-	 * 
-	 * //ver esse com o professor private void inserirEvento(HttpServletRequest
-	 * request, HttpServletResponse response) throws ServletException, IOException,
-	 * SQLException {
-	 * 
-	 * 
-	 * int animalId = Integer.parseInt(request.getParameter("animal-id"));
-	 * 
-	 * 
-	 * String tipo = request.getParameter("tipo"); String descricao =
-	 * request.getParameter("descricao"); LocalDate dataEvento =
-	 * LocalDate.parse(request.getParameter("dataEvento"));
-	 * 
-	 * String foto = request.getParameter("foto");
-	 * 
-	 * //isso é o endereço String logradouro = request.getParameter("logradouro");
-	 * String numero = request.getParameter("numero"); String bairro =
-	 * request.getParameter("bairro"); String cidade =
-	 * request.getParameter("cidade"); String estado =
-	 * request.getParameter("estado"); String complemento =
-	 * request.getParameter("complemento"); String cep =
-	 * request.getParameter("cep");
-	 * 
-	 * 
-	 * dao.inserirEvento(new Evento(animalId, tipo, descricao, dataEvento));
-	 * dao.inserirFoto(new Foto(foto)); dao.inserirEndereco(new Endereco(logradouro,
-	 * numero, bairro, cidade, estado, complemento, cep));
-	 * 
-	 * 
-	 * 
-	 * response.sendRedirect("perfil-animal?id=" + animalId); }
-	 * 
-	 * 
-	 * private void mostrarTelaPerfilAnimal(HttpServletRequest request,
-	 * HttpServletResponse response) throws ServletException, IOException {
-	 * RequestDispatcher dispatcher =
-	 * request.getRequestDispatcher("perfil-animal.jsp");
-	 * dispatcher.forward(request, response); }
-	 * 
-	 */
+	private void listarEventosPorUsuario(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException, SQLException {
+
+	    Usuario usuario = (Usuario) request.getSession().getAttribute("usuarioLogado");
+	    if (usuario == null) {
+	        response.sendRedirect("login-usuario");
+	        return;
+	    }
+	    Long idUsuario = usuario.getId();
+
+	    request.setAttribute("eventos", eventoDao.listarPorUsuario(idUsuario));
+
+	    RequestDispatcher dispatcher = request.getRequestDispatcher("listar-eventos-usuario.jsp");
+	    dispatcher.forward(request, response);
+	}
+
 
 }

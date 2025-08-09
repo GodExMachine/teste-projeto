@@ -50,9 +50,19 @@
 
 		<a href="editar-perfil" class="btn">Editar Perfil</a> <a href="logout"
 			class="btn" style="background-color: #cc3300; margin-top: 10px;">Sair</a>
+			
+		<a href="${pageContext.request.contextPath}/listar-eventos-usuario" 
+		   class="btn" 
+		   style="background-color: #3366cc; margin-top: 10px;">
+		    Meus Eventos</a>
+		
+		
 		<a href="index.jsp" class="btn"
 			style="background-color: #777; margin-top: 10px;">Voltar para
 			Início</a>
+			
+
+
 
 	</div>
 </body>

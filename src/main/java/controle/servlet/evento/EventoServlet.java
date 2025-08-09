@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-@WebServlet(urlPatterns = {"/novo-evento", "/inserir-evento", "/listar-eventos"})
+@WebServlet(urlPatterns = {"/novo-evento", "/inserir-evento"})
 public class EventoServlet extends HttpServlet {
 
     private EventoDao eventoDao;
@@ -43,10 +43,6 @@ public class EventoServlet extends HttpServlet {
 
                 case "/inserir-evento":
                     inserirEvento(request, response);
-                    break;
-
-                case "/listar-eventos":
-                    listarEventos(request, response);
                     break;
 
                 default:
@@ -111,4 +107,7 @@ public class EventoServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("erro404.jsp");
         dispatcher.forward(request, response);
     }
+
+
+
 }

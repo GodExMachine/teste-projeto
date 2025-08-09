@@ -212,9 +212,10 @@ public class UsuarioServlet extends HttpServlet {
 	    Usuario usuario = usuarioDao.buscarPorEmailESenha(email, senha);
 
 	    if (usuario != null) {
+	    	System.out.println("Logado com sucesso!");
 	        HttpSession session = request.getSession();
 	        session.setAttribute("usuarioLogado", usuario);
-	        response.sendRedirect("homepage");
+	        response.sendRedirect("index.jps");
 	    } else {
 	        request.setAttribute("erro", "Email ou senha inválidos.");
 	        RequestDispatcher dispatcher = request.getRequestDispatcher("login-usuario.jsp");

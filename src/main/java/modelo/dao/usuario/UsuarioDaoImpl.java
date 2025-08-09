@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.ResultSet;
 
 public class UsuarioDaoImpl implements UsuarioDao{
 	
@@ -228,6 +229,47 @@ public void atualizarSenhaUsuario(Usuario usuario, String novaSenha) {
 		}
 	}
 }
+
+public Usuario buscarPorEmailESenha(String email, String senha) {
+    Connection conexao = null;
+    PreparedStatement select = null;
+    Usuario usuario = null;
+
+    try {
+        conexao = conectarBanco();
+        String sql = "SELECT id_usuario, nome_usuario, sobrenome_usuario, email_usuario, senha_usuario, id_endereco FROM usuario WHERE email_usuario = ? AND senha_usuario = ?";
+        select = conexao.prepareStatement(sql);
+        select.setString(1, email);
+        select.setString(2, senha);
+
+        ResultSet resultado = select.executeQuery();
+
+        if (resultado.next()) {
+            Long id = resultado.getLong("id_usuario");
+            String nome = resultado.getString("nome_usuario");
+            String sobrenome = resultado.getString("sobrenome_usuario");
+            String emailUsuario = resultado.getString("email_usuario");
+            String senhaUsuario = resultado.getString("senha_usuario");
+            Long idEndereco = resultado.getLong("id_endereco");
+
+            usuario = new Usuario(nome, sobrenome, emailUsuario, senhaUsuario, idEndereco);
+            usuario.setId(id);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        try {
+            if (select != null) select.close();
+            if (conexao != null) conexao.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    return usuario;
+}
+
+
+
 
 private Connection conectarBanco() throws SQLException {
 	try {

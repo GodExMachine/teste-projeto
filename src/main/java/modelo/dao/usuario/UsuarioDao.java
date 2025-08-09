@@ -15,5 +15,7 @@ public interface UsuarioDao {
 	void atualizarSobrenomeUsuario(Usuario usuario, String novoSobrenome);
 
 	void atualizarSenhaUsuario(Usuario usuario, String novaSenha);
+	
+	Usuario buscarPorEmailESenha(String email, String senha);
 
 }

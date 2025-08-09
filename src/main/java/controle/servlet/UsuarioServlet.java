@@ -64,10 +64,10 @@ public class UsuarioServlet extends HttpServlet {
 				mostrarTelaLoginUsuario(request, response);
 				break;
 				
-			/*case"/login":	//tá certo isso arnaldo?
-				loginUsuario(request, response);
-				break;
-				*/
+			case "/login":
+			    loginUsuario(request, response);
+			    break;
+			    
 			case "/homepage":
 				mostrarHomepage(request, response);
 				break;
@@ -120,6 +120,12 @@ public class UsuarioServlet extends HttpServlet {
 	}
 
 	
+	
+	private void mostrarHomepage(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException {
+	    RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp");
+	    dispatcher.forward(request, response);
+	}
 	
 	private void mostrarTelaCadastroUsuario(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -196,36 +202,31 @@ public class UsuarioServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	
 	}
-
-	/*
-	private void loginUsuario(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, SQLException {
-
-		String email = request.getParameter("email");
-		String senha = request.getParameter("senha");
-
-		Usuario usuario = dao.buscarUsuarioPorEmailESenha(email, senha);
-
-		if (usuario != null) {
-			HttpSession session = request.getSession();
-			session.setAttribute("usuarioLogado", usuario);
-			response.sendRedirect("homepage");
-		} else {
-			request.setAttribute("erro", "Email ou senha inválidos.");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("login-usuario.jsp");
-			dispatcher.forward(request, response);
-		}
-	}
-	
-	*/
-	
-	private void mostrarHomepage(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp");
-		dispatcher.forward(request, response);
+	private void loginUsuario(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException, SQLException {
+
+	    String email = request.getParameter("email");
+	    String senha = request.getParameter("senha");
+
+	    Usuario usuario = usuarioDao.buscarPorEmailESenha(email, senha);
+
+	    if (usuario != null) {
+	        HttpSession session = request.getSession();
+	        session.setAttribute("usuarioLogado", usuario);
+	        response.sendRedirect("homepage");
+	    } else {
+	        request.setAttribute("erro", "Email ou senha inválidos.");
+	        RequestDispatcher dispatcher = request.getRequestDispatcher("login-usuario.jsp");
+	        dispatcher.forward(request, response);
+	    }
 	}
 	
+	
+	
+	
+	
+
 	private void mostrarTelaPerfilUsuario(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
@@ -246,6 +247,10 @@ public class UsuarioServlet extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("erro404.jsp");
 		dispatcher.forward(request, response);
 	}
+	
+	
+	
+	
 	
 	/*			
 	priva	te void listarAnimaisCadastrados(HttpServletRequest request, HttpServletResponse response)

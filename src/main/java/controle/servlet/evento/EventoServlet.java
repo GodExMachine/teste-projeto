@@ -3,6 +3,9 @@ package controle.servlet;
 import modelo.dao.evento.EventoDao;
 import modelo.dao.evento.EventoDaoImpl;
 import modelo.entidade.evento.Evento;
+import modelo.entidade.endereco.Endereco;
+import modelo.dao.endereco.EnderecoDao;
+import modelo.dao.endereco.EnderecoDaoImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,18 +19,19 @@ import java.time.LocalDate;
 public class EventoServlet extends HttpServlet {
 
     private EventoDao eventoDao;
+    private EnderecoDao enderecoDao;
 
-    @Override
     public void init() {
         eventoDao = new EventoDaoImpl();
+        enderecoDao = new EnderecoDaoImpl();
     }
 
-    @Override
+  
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }
 
-    @Override
+  
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getServletPath();
 
@@ -59,12 +63,29 @@ public class EventoServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("novo-evento.jsp");
         dispatcher.forward(request, response);
     }
-
+    
+    
     private void inserirEvento(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
 
         Long idUsuario = Long.parseLong(request.getParameter("idUsuario"));
-        Long idEndereco = Long.parseLong(request.getParameter("idEndereco"));
+
+        // Criar objeto Endereco com os dados do form
+    	String logradouro = request.getParameter("logradouro");
+		String numero = request.getParameter("numero");
+		String bairro = request.getParameter("bairro");
+		String cidade = request.getParameter("cidade");
+		String estado = request.getParameter("estado");
+		String complemento = request.getParameter("complemento");
+		String cep = request.getParameter("cep");
+
+		// cria o endereço
+		Endereco endereco = new Endereco(null, logradouro, numero, complemento, bairro, cidade, estado, cep);
+
+		// insere o endereço e pega o ID gerado
+		Long idEndereco = enderecoDao.inserirEndereco(endereco);
+
+        // do evento
         LocalDate dataEvento = LocalDate.parse(request.getParameter("dataEvento"));
         String comentario = request.getParameter("comentario");
 
@@ -72,8 +93,10 @@ public class EventoServlet extends HttpServlet {
 
         eventoDao.inserirEvento(evento);
 
-        response.sendRedirect("listar-eventos");
+        response.sendRedirect("index.jsp");
     }
+
+
 
     private void listarEventos(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {

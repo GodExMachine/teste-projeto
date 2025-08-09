@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -33,8 +34,8 @@
             display: block;
             margin-top: 10px;
         }
+        input[type="text"],
         input[type="date"],
-        select,
         textarea {
             width: 100%;
             padding: 8px;
@@ -68,11 +69,29 @@
         <form action="inserir-evento" method="post">
             <h1>Cadastrar Evento</h1>
 
-            <label for="idUsuario">Usuário</label>
-            <input type="text" id="idUsuario" name="idUsuario" placeholder="ID do usuário" required />
+        <c:if test="${not empty sessionScope.usuarioLogado}">
+    <input type="hidden" id="idUsuario" name="idUsuario" value="${sessionScope.usuarioLogado.id}" />
+</c:if>
 
-            <label for="idEndereco">Endereço</label>
-            <input type="text" id="idEndereco" name="idEndereco" placeholder="ID do endereço" required />
+            <h3>Endereço do Evento</h3>
+
+            <label for="logradouro">Logradouro</label>
+            <input type="text" id="logradouro" name="logradouro" placeholder="Rua, avenida, etc." required />
+
+            <label for="numero">Número</label>
+            <input type="text" id="numero" name="numero" placeholder="Número" required />
+
+            <label for="bairro">Bairro</label>
+            <input type="text" id="bairro" name="bairro" placeholder="Bairro" required />
+
+            <label for="cidade">Cidade</label>
+            <input type="text" id="cidade" name="cidade" placeholder="Cidade" required />
+
+            <label for="estado">Estado</label>
+            <input type="text" id="estado" name="estado" placeholder="Estado" required />
+
+            <label for="cep">CEP</label>
+            <input type="text" id="cep" name="cep" placeholder="CEP" required />
 
             <label for="dataEvento">Data do Evento</label>
             <input type="date" id="dataEvento" name="dataEvento" required />

@@ -78,6 +78,8 @@
 
         <a href="editar-perfil" class="btn">Editar Perfil</a>
         <a href="logout" class="btn" style="background-color:#cc3300; margin-top:10px;">Sair</a>
+        <a href="index.jsp" class="btn" style="background-color:#777; margin-top:10px;">Voltar para Início</a>
+
     </div>
 </body>
 </html>

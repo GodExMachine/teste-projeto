@@ -10,6 +10,7 @@ import modelo.entidade.endereco.Endereco;
 
 import modelo.dao.evento.EventoDao;
 import modelo.dao.evento.EventoDaoImpl;
+import modelo.entidade.evento.Evento;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,6 +23,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+
 
 //@WebServlet(urlPatterns = {"/cadastro-usuario","/inserir-usuario","/login-usuario","/login","/homepage","/perfil-usuario"})
 @WebServlet("/")
@@ -220,11 +225,29 @@ public class UsuarioServlet extends HttpServlet {
 	    }
 	    Long idUsuario = usuario.getId();
 
-	    request.setAttribute("eventos", eventoDao.listarPorUsuario(idUsuario));
+	    List<Evento> eventos = eventoDao.listarPorUsuario(idUsuario);
+	    Map<Long, Endereco> enderecosMap = new HashMap<>();
+
+	    for (Evento evento : eventos) {
+	        Long idEndereco = evento.getIdEndereco();
+	        Endereco endereco = enderecoDao.buscarEnderecoPorId(idEndereco);
+	        enderecosMap.put(idEndereco, endereco);
+	    }
+
+	    request.setAttribute("eventos", eventos);
+	    request.setAttribute("enderecosMap", enderecosMap);
+	    request.setAttribute("usuarioLogado", usuario);
 
 	    RequestDispatcher dispatcher = request.getRequestDispatcher("listar-eventos-usuario.jsp");
 	    dispatcher.forward(request, response);
 	}
 
+	
+
+	
+	
+	
+	
+	
 
 }

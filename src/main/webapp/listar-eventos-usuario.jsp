@@ -1,8 +1,10 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Meus Eventos</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/listar-eventos-usuario.css" />
+    
 </head>
 <body>
 <h2>Meus Eventos</h2>
@@ -12,19 +14,34 @@
 </c:if>
 
 <c:if test="${not empty eventos}">
-    <table border="1" cellpadding="5">
-        <tr>
-            <th>Data</th>
-            <th>Comentário</th>
-            <th>ID Endereço</th>
-        </tr>
-        <c:forEach var="evento" items="${eventos}">
-            <tr>
-                <td>${evento.dataEvento}</td>
-                <td>${evento.comentario}</td>
-                <td>${evento.idEndereco}</td>
-            </tr>
-        </c:forEach>
+    <table>
+		<thead>
+		    <tr>
+		        <th class="nome-usuario">Nome do Usuário</th>
+		        <th>Endereço</th>
+		        <th class="data-evento">Data do Evento</th>
+		        <th>Comentário</th>
+		    </tr>
+		</thead>
+		<tbody>
+		    <c:forEach var="evento" items="${eventos}">
+		        <tr>
+		            <td class="nome-usuario">${usuarioLogado.nome} ${usuarioLogado.sobrenome}</td>
+		            
+		            <td>
+		                <c:set var="endereco" value="${enderecosMap[evento.idEndereco]}" />
+		                Logradouro: ${endereco.logradouro}
+		                Número: ${endereco.numero}
+		                Bairro: ${endereco.bairro}
+		                Cidade: ${endereco.cidade} - ${endereco.estado}
+		                CEP: ${endereco.cep}
+		            </td>
+		            
+		            <td class="data-evento">${evento.dataEvento}</td>
+		            <td class="comentario">${evento.comentario}</td>
+		        </tr>
+		    </c:forEach>
+		</tbody>
     </table>
 </c:if>
 

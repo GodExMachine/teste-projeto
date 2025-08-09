@@ -34,7 +34,9 @@
 		                Número: ${endereco.numero}
 		                Bairro: ${endereco.bairro}
 		                Cidade: ${endereco.cidade} - ${endereco.estado}
-		                CEP: ${endereco.cep}
+		                CEP: ${endereco.cep} 
+		                Complemento: ${endereco.complemento}
+		                
 		            </td>
 		            
 		            <td class="data-evento">${evento.dataEvento}</td>

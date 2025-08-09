@@ -17,5 +17,7 @@ public interface UsuarioDao {
 	void atualizarSenhaUsuario(Usuario usuario, String novaSenha);
 	
 	Usuario buscarPorEmailESenha(String email, String senha);
+	
+	Usuario buscarUsuarioPorId(Long id);
 
 }

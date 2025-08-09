@@ -49,7 +49,6 @@ public class EnderecoDaoImpl implements EnderecoDao {
 	    return idGerado;
 	}
 
-
     public void deletarEndereco(Long idEndereco) throws SQLException {
         Connection conexao = null;
         PreparedStatement delete = null;
@@ -91,6 +90,51 @@ public class EnderecoDaoImpl implements EnderecoDao {
         }
     }
 
+    public Endereco buscarEnderecoPorId(Long id) {
+        Connection conexao = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Endereco endereco = null;
+
+        try {
+            conexao = conectarBanco();
+            String sql = "SELECT id_endereco, logradouro_endereco, numero_endereco, complemento_endereco, bairro_endereco, cidade_endereco, estado_endereco, cep_endereco FROM endereco WHERE id_endereco = ?";
+            stmt = conexao.prepareStatement(sql);
+            stmt.setLong(1, id);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+            	endereco = new Endereco(
+            		    rs.getLong("id_endereco"),
+            		    rs.getString("logradouro_endereco"),
+            		    rs.getString("numero_endereco"),
+            		    rs.getString("complemento_endereco"),
+            		    rs.getString("bairro_endereco"),
+            		    rs.getString("cidade_endereco"),
+            		    rs.getString("estado_endereco"),
+            		    rs.getString("cep_endereco")
+            		);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar endereço: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (conexao != null) conexao.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return endereco;
+    }
+
+
+    
+    
+    
     private Connection conectarBanco() throws SQLException {
     	try {
     	    Class.forName("com.mysql.cj.jdbc.Driver");

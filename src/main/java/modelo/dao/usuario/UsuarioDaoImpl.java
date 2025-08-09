@@ -268,6 +268,36 @@ public Usuario buscarPorEmailESenha(String email, String senha) {
     return usuario;
 }
 
+public Usuario buscarUsuarioPorId(Long id) {
+    Connection conexao = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    Usuario usuario = null;
+
+    try {
+        conexao = conectarBanco();
+        stmt = conexao.prepareStatement("SELECT * FROM usuario WHERE id_usuario = ?");
+        stmt.setLong(1, id);
+        rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            usuario = new Usuario(
+                rs.getString("nome_usuario"),
+                rs.getString("sobrenome_usuario"),
+                rs.getString("email_usuario"),
+                rs.getString("senha_usuario"),
+                rs.getLong("id_endereco")
+            );
+            usuario.setId(rs.getLong("id_usuario"));
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        try { if (rs != null) rs.close(); if (stmt != null) stmt.close(); if (conexao != null) conexao.close(); } catch (SQLException e) { e.printStackTrace(); }
+    }
+
+    return usuario;
+}
 
 
 

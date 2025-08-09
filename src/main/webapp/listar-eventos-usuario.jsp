@@ -45,5 +45,16 @@
     </table>
 </c:if>
 
+
+<br/>
+
+<div class="btn-container">
+  <button onclick="location.href='${pageContext.request.contextPath}/perfil-usuario?id=${usuarioLogado.id}'">
+    Voltar
+</button>
+  
+  </div>
+
+
 </body>
 </html>
